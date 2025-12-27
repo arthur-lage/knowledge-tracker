@@ -1,23 +1,27 @@
 <script setup>
-import { handleLogin } from "@/services/AuthService";
+import { getCurrentUser, handleLogin } from "@/services/AuthService";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+const user = getCurrentUser()
+
+if (user) {
+  router.push("/dashboard")
+}
 
 const email = ref("");
 const password = ref("");
 
 function submitForm() {
-  const res = handleLogin(email.value, password.value);
+  const res =  handleLogin(email.value, password.value);
 
   if (res) {
-    router.push("/dashboard");
     localStorage.setItem("currentUser", JSON.stringify(res));
-    return;
+    router.push("/dashboard");
+  } else { 
+    alert("invalid credentials");
   }
-
-  alert("invalid credentials");
 }
 </script>
 
@@ -57,12 +61,12 @@ function submitForm() {
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  background: #8FABD4;
+  background: var(--light-blue);
 }
 
 .login-container {
-    background-color: #fffbf0;
-    display: flex;
+  background-color: var(--off-white-bg);
+  display: flex;
   align-items: center;
   flex-direction: column;
   max-width: 500px;
@@ -73,7 +77,7 @@ function submitForm() {
 
 h1 {
   margin-bottom: 25px;
-  font-family: "Rubik Gemstones";
+  font-family: var(--font-special);
   font-size: 48px;
   color: #333;
 }
@@ -84,7 +88,7 @@ form {
   display: flex;
   flex-direction: column;
   gap: 25px;
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-text);
 }
 
 .inputField {
@@ -94,42 +98,41 @@ form {
 }
 
 input {
-    font-size: 16px;
-    padding: 4px;
-    transition: .2s ease;
-    border: 1px solid #222;
-    border-radius: 2px;
-  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  padding: 4px;
+  transition: 0.2s ease;
+  border: 1px solid #222;
+  border-radius: 2px;
+  font-family: var(--font-text);
 }
 
 input:focus {
-    transform: translateY(-5px);
-
+  transform: translateY(-5px);
 }
 
 input:hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
 button {
-    font-family: "Inter", sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    align-self: center;
-    color: #fffbf0;
-    background: #3950a3;
-    padding: 10px 20px;
-    font-weight: 700;
-    font-size: 20px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: .2s ease;
-    border: none;
+  font-family: var(--font-text);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  align-self: center;
+  color: var(--off-white-bg);
+  background: var(--dark-blue);
+  padding: 10px 20px;
+  font-weight: 700;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: 0.2s ease;
+  border: none;
 }
 
 button:hover {
-    filter: brightness(1.25);
-    transform: scale(1.05);
+  filter: brightness(1.25);
+  transform: scale(1.05);
 }
 
 .link {

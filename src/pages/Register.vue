@@ -1,24 +1,30 @@
 <script setup>
-import { handleRegister } from "@/services/AuthService";
+import { getCurrentUser, handleRegister } from "@/services/AuthService";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
+
+const user = getCurrentUser()
 const router = useRouter();
+
+if (user) {
+  router.push("/dashboard")
+}
 
 const name = ref("");
 const email = ref("");
 const password = ref("");
 
-function submitForm() {
-  const res = handleRegister(name.value, email.value, password.value);
+ function submitForm() {
+  const res =  handleRegister(name.value, email.value, password.value);
 
   if (res) {
-    router.push("/dashboard");
     localStorage.setItem("currentUser", JSON.stringify(res));
-    return;
+    router.push("/dashboard");
+  } else {    
+    alert("invalid credentials");
   }
-
-  alert("invalid credentials");
+  
 }
 </script>
 
@@ -30,15 +36,15 @@ function submitForm() {
       <form @submit.prevent="submitForm">
         <div class="inputField">
           <label for="name">Name</label>
-          <input id="name" type="text" v-model="name" placeholder="Your name"/>
+          <input id="name" type="text" v-model="name" placeholder="Your name" />
         </div>
         <div class="inputField">
           <label for="email">Email</label>
-          <input id="email" type="email" v-model="email" placeholder="email@mail.com"/>
+          <input id="email" type="email" v-model="email" placeholder="email@mail.com" />
         </div>
         <div class="inputField">
           <label for="password">Password</label>
-          <input id="password" type="password" min="8" v-model="password" placeholder="Password"/>
+          <input id="password" type="password" min="8" v-model="password" placeholder="Password" />
         </div>
         <button type="submit">Register</button>
       </form>
@@ -56,11 +62,11 @@ function submitForm() {
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  background: #8fabd4;
+  background: var(--light-blue);
 }
 
 .register-container {
-  background-color: #fffbf0;
+  background-color: var(--off-white-bg);
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -72,7 +78,7 @@ function submitForm() {
 
 h1 {
   margin-bottom: 25px;
-  font-family: "Rubik Gemstones";
+  font-family: var(--font-special);
   font-size: 48px;
   color: #333;
 }
@@ -83,7 +89,7 @@ form {
   display: flex;
   flex-direction: column;
   gap: 25px;
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-text);
 }
 
 .inputField {
@@ -98,7 +104,7 @@ input {
   transition: 0.2s ease;
   border: 1px solid #222;
   border-radius: 2px;
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-text);
 }
 
 input:focus {
@@ -110,7 +116,7 @@ input:hover {
 }
 
 button {
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-text);
   text-transform: uppercase;
   letter-spacing: 1px;
   align-self: center;

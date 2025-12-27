@@ -5,3 +5,11 @@
     padding: 0;
     box-sizing: border-box;
   }
+
+  :root {
+    --font-special: "Rubik Gemstones", sans-serif;
+    --font-text: "Inter", sans-serif;
+    --off-white-bg: #fffbf0;
+    --light-blue: #8fabd4;
+    --dark-blue: #3950a3;
+  }
