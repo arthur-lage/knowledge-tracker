@@ -1,13 +1,12 @@
 <script setup>
-import { ref } from "vue";
-import { getCurrentUser } from "@/services/AuthService";
+import { useAuthStore } from "@/stores/auth";
 import { useRouter } from "vue-router";
-const user = getCurrentUser();
+
+const { user } = useAuthStore();
 const router = useRouter()
-let loggedIn = ref(user != null);
 
 function handleCTAClick () {
-  if (loggedIn) {
+  if (user) {
     router.push("/dashboard")
   } else {
     router.push("/login")
@@ -22,10 +21,10 @@ function handleCTAClick () {
         <router-link class="logo" to="/">Knowledge Tracker</router-link>
       </div>
       <nav>
-        <div v-if="loggedIn">
+        <div v-if="user">
           <router-link class="dashboard-link" to="/dashboard">Dashboard</router-link>
         </div>
-        <div v-if="!loggedIn" class="login-options">
+        <div v-else class="login-options">
           <router-link class="register-link" to="/register">Register</router-link>
           <router-link class="login-link" to="/login">Login</router-link>
         </div>
@@ -110,7 +109,7 @@ nav {
 
 .register-link:hover {
   filter: brightness(1.2);
-  transform: scale(1.05);
+  transform: scale(1.05 );
 }
 
 .login-link  {

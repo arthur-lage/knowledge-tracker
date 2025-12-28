@@ -1,10 +1,10 @@
 <script setup>
-import { getCurrentUser, handleRegister } from "@/services/AuthService";
+import {  handleRegister } from "@/services/AuthService";
+import { useAuthStore } from "@/stores/auth";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
-
-const user = getCurrentUser()
+const {user, setUser} = useAuthStore()
 const router = useRouter();
 
 if (user) {
@@ -19,7 +19,7 @@ const password = ref("");
   const res =  handleRegister(name.value, email.value, password.value);
 
   if (res) {
-    localStorage.setItem("currentUser", JSON.stringify(res));
+    setUser(res)
     router.push("/dashboard");
   } else {    
     alert("invalid credentials");
